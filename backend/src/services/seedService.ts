@@ -52,56 +52,95 @@ const seedProjects = [
 
 const seedCertifications = [
   {
-    name: "Samsung Innovation Campus Competition Certificate",
+    name: "Google Cybersecurity Professional Certificate",
+    slug: "google-cybersecurity-professional",
+    description:
+      "Ongoing enrollment in the Google Cybersecurity Professional Certificate on Coursera. Completed 2 of 8 courses so far, covering security foundations, network defense, and hands-on cybersecurity practices.",
+    imageUrl: "/certificates/google-cybersecurity.svg",
+    certificateUrl: "/certificates/google-cybersecurity.svg",
+    downloadUrl: "/certificates/google-cybersecurity.svg",
+    issuer: "Google",
+    issuedDate: new Date("2026-07-08"),
+    course: "Cybersecurity Professional Certificate (2/8 completed)",
+    startDate: new Date("2026-07-08"),
+    partner: "Coursera",
+    order: 1,
+  },
+  {
+    name: "Samsung Innovation Campus Certificate of Completion",
     slug: "samsung-innovation-campus",
     description:
-      "Certificate awarded for participation and achievement in the Samsung Innovation Campus Competition, demonstrating innovation and technical excellence.",
-    imageUrl: "/certificates/samsung-certificate.svg",
-    certificateUrl: "/certificates/samsung-innovation-campus.pdf",
-    downloadUrl: "/certificates/samsung-innovation-campus.pdf",
-    issuer: "Samsung",
-    issuedDate: new Date("2024-06-01"),
-    order: 1,
+      "Certificate awarded for successfully completing the Coding & Programming course during the Samsung Innovation Campus program. This program is conducted in partnership with the Telecom Sector Skill Council to develop industry-ready technology skills.",
+    imageUrl: "/certificates/samsung-innovation-campus.png",
+    certificateUrl: "/certificates/samsung-innovation-campus.png",
+    downloadUrl: "/certificates/samsung-innovation-campus.png",
+    issuer: "Samsung Innovation Campus",
+    issuedDate: new Date("2026-02-11"),
+    course: "Coding & Programming",
+    startDate: new Date("2025-11-27"),
+    endDate: new Date("2026-02-11"),
+    partner: "Telecom Sector Skill Council",
+    order: 2,
   },
 ];
 
 const seedExperiences = [
   {
-    title: "Python with AI Training",
-    organization: "Professional Training Program",
+    title: "Google Cybersecurity Professional Certificate",
+    organization: "Google · Coursera",
     type: "training" as const,
-    currentLevel: "Level 1",
+    currentLevel: "2 of 8 Courses Completed",
     status: "current" as const,
-    startDate: new Date("2025-01-01"),
+    startDate: new Date("2026-07-08"),
     endDate: null,
     learning: [
-      "Python Programming",
-      "Artificial Intelligence Fundamentals",
-      "Machine Learning Basics",
-      "Backend Development",
-      "Problem Solving",
+      "Foundations of Cybersecurity",
+      "Play It Safe: Manage Security Risks",
+      "Network Security",
+      "Linux & SQL for Cybersecurity",
+      "Threat Detection & Incident Response",
     ],
     description:
-      "Currently undergoing structured Python with AI training, building foundational skills in programming, AI concepts, and backend development.",
+      "Ongoing Google Cybersecurity Professional Certificate on Coursera. Started 2 days ago and has completed 2 courses so far, building practical skills for entry-level cybersecurity roles.",
+    images: [],
     order: 1,
+  },
+  {
+    title: "B.Tech in Computer Science Engineering",
+    organization: "Rayat Bahra University",
+    type: "training" as const,
+    status: "current" as const,
+    startDate: new Date("2022-01-01"),
+    endDate: null,
+    learning: [
+      "Computer Science Fundamentals",
+      "Python Programming",
+      "Cloud Computing",
+      "Cybersecurity",
+      "Software Engineering",
+    ],
+    description:
+      "Currently pursuing B.Tech in Computer Science Engineering at Rayat Bahra University, building strong foundations in programming, cloud technologies, and cybersecurity.",
+    images: [],
+    order: 2,
   },
 ];
 
 const seedPortfolio = {
   name: "Satnam Kumar",
-  title: "Aspiring Full-Stack Developer",
+  title: "Python Developer | Cloud & Cybersecurity Learner",
   tagline: "Building practical applications with modern technologies",
   about:
     "I am passionate about learning software development and continuously improving my technical skills. I enjoy solving programming problems, building practical applications, and exploring modern technologies. My current focus areas include Full-Stack Development, Artificial Intelligence, Backend Development, and Software Engineering.",
   education: {
     degree: "B.Tech in Computer Science Engineering",
-    institution: "",
+    institution: "Rayat Bahra University",
     status: "Currently in 4th Year",
   },
   roles: [
-    "B.Tech Computer Science Engineering Student",
-    "Aspiring Full-Stack Developer",
-    "Python with AI Trainee",
+    "B.Tech Student at Rayat Bahra University",
+    "Google Cybersecurity Learner — 2 Courses Completed",
+    "Python Developer | Cloud & Cybersecurity Learner",
     "Software Developer",
   ],
   skills: {
@@ -121,15 +160,37 @@ const seedPortfolio = {
   ],
   socialLinks: {
     github: "https://github.com/Satnam-dev",
-    linkedin: null,
-    email: null,
+    linkedin: "https://www.linkedin.com/in/satnam-kumar-576190361/",
+    email: "satnamkumar.cse@gmail.com",
   },
-  resumeUrl: "/resume/Satnam-Kumar-Resume.pdf",
+  resumeUrl: "/resume/Satnam%20Kumar.pdf.pdf",
   stats: {
     projectsCount: 2,
     skillsCount: 12,
-    certificationsCount: 1,
+    certificationsCount: 2,
   },
+};
+
+const insertSeedData = async (): Promise<void> => {
+  await Project.insertMany(seedProjects);
+  await Certification.insertMany(seedCertifications);
+  await Experience.insertMany(seedExperiences);
+  await PortfolioInfo.create(seedPortfolio);
+};
+
+export const seedIfEmpty = async (): Promise<void> => {
+  const projectCount = await Project.countDocuments();
+  if (projectCount > 0) {
+    return;
+  }
+
+  await insertSeedData();
+
+  console.log("In-memory database seeded successfully!");
+  console.log(`  - ${seedProjects.length} projects`);
+  console.log(`  - ${seedCertifications.length} certifications`);
+  console.log(`  - ${seedExperiences.length} experiences`);
+  console.log(`  - 1 portfolio profile`);
 };
 
 export const seedDatabase = async (): Promise<void> => {
@@ -142,10 +203,7 @@ export const seedDatabase = async (): Promise<void> => {
     PortfolioInfo.deleteMany({}),
   ]);
 
-  await Project.insertMany(seedProjects);
-  await Certification.insertMany(seedCertifications);
-  await Experience.insertMany(seedExperiences);
-  await PortfolioInfo.create(seedPortfolio);
+  await insertSeedData();
 
   console.log("Database seeded successfully!");
   console.log(`  - ${seedProjects.length} projects`);

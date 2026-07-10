@@ -10,6 +10,7 @@ export interface IExperience extends Document {
   endDate?: Date | null;
   learning: string[];
   description: string;
+  images?: string[];
   order: number;
   createdAt: Date;
   updatedAt: Date;
@@ -34,6 +35,7 @@ const experienceSchema = new Schema<IExperience>(
     endDate: { type: Date, default: null },
     learning: [{ type: String }],
     description: { type: String, required: true },
+    images: [{ type: String }],
     order: { type: Number, default: 0 },
   },
   { timestamps: true }

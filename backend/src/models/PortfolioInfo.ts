@@ -64,7 +64,7 @@ const portfolioInfoSchema = new Schema<IPortfolioInfo>(
       linkedin: { type: String, default: null },
       email: { type: String, default: null },
     },
-    resumeUrl: { type: String, default: "/resume/Satnam-Kumar-Resume.pdf" },
+    resumeUrl: { type: String, default: "/resume/Satnam%20Kumar.pdf.pdf" },
     stats: {
       projectsCount: { type: Number, default: 0 },
       skillsCount: { type: Number, default: 0 },
