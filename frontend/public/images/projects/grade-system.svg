@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#18181B"/>
+  <rect x="100" y="80" width="600" height="290" rx="16" fill="#27272A" stroke="#6366F1" stroke-width="2"/>
+  <rect x="140" y="120" width="200" height="24" rx="4" fill="#6366F1" opacity="0.6"/>
+  <rect x="140" y="160" width="520" height="12" rx="2" fill="#3F3F46"/>
+  <rect x="140" y="180" width="480" height="12" rx="2" fill="#3F3F46"/>
+  <rect x="140" y="200" width="500" height="12" rx="2" fill="#3F3F46"/>
+  <rect x="140" y="240" width="160" height="80" rx="8" fill="#06B6D4" opacity="0.3"/>
+  <rect x="320" y="240" width="160" height="80" rx="8" fill="#6366F1" opacity="0.3"/>
+  <rect x="500" y="240" width="160" height="80" rx="8" fill="#22D3EE" opacity="0.3"/>
+  <text x="400" y="380" text-anchor="middle" fill="#A1A1AA" font-family="system-ui" font-size="20">Grade Evaluation System</text>
+</svg>

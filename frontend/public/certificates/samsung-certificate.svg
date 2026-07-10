@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#18181B"/>
+  <rect x="40" y="30" width="320" height="240" rx="12" fill="#27272A" stroke="#6366F1" stroke-width="2"/>
+  <circle cx="200" cy="100" r="40" fill="#6366F1" opacity="0.3"/>
+  <path d="M185 100 L195 110 L220 85" stroke="#6366F1" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="80" y="160" width="240" height="16" rx="4" fill="#3F3F46"/>
+  <rect x="80" y="190" width="180" height="12" rx="3" fill="#52525B"/>
+  <rect x="80" y="210" width="200" height="12" rx="3" fill="#52525B"/>
+  <text x="200" y="260" text-anchor="middle" fill="#A1A1AA" font-family="system-ui" font-size="12">Samsung Innovation Campus</text>
+</svg>
