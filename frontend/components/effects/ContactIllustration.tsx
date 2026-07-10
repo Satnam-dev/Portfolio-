@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Calendar, Code2, Mail, MessageCircle } from "lucide-react";
 
 const floatIcons = [
@@ -26,8 +27,26 @@ const floatIcons = [
 ];
 
 export function ContactIllustration() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        root.classList.toggle("is-visible", entry.isIntersecting);
+      },
+      { threshold: 0.15, rootMargin: "80px 0px" }
+    );
+
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       className="relative mx-auto flex w-full max-w-lg items-center justify-center py-4 md:py-8"
       aria-hidden
     >

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { TYPING_ROLES, SITE } from "@/lib/constants";
 import type { PortfolioInfo } from "@/types";
@@ -81,19 +81,19 @@ export function HeroSection({ portfolio }: HeroSectionProps) {
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 text-center md:px-6">
         {mode === "full" ? (
-          <motion.div
+          <m.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
             className="space-y-3 md:space-y-4"
           >
-            <motion.div variants={fadeInUp}>{headline}</motion.div>
-            <motion.div variants={fadeInUp}>{subtitle}</motion.div>
-            <motion.div variants={fadeInUp}>{journey}</motion.div>
-            <motion.div variants={fadeInUp}>{typing}</motion.div>
-            <motion.div variants={fadeInUp}>{location}</motion.div>
-            <motion.div variants={fadeInUp}>{cta}</motion.div>
-          </motion.div>
+            <m.div variants={fadeInUp}>{headline}</m.div>
+            <m.div variants={fadeInUp}>{subtitle}</m.div>
+            <m.div variants={fadeInUp}>{journey}</m.div>
+            <m.div variants={fadeInUp}>{typing}</m.div>
+            <m.div variants={fadeInUp}>{location}</m.div>
+            <m.div variants={fadeInUp}>{cta}</m.div>
+          </m.div>
         ) : (
           content
         )}

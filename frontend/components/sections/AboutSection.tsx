@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Code2,
   Database,
@@ -51,19 +51,19 @@ export function AboutSection({ portfolio }: AboutSectionProps) {
           description="A dedicated computer science student passionate about software development"
         />
 
-        <motion.div
+        <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           className="panel-card mx-auto max-w-4xl p-6 md:p-10"
         >
-          <motion.div variants={fadeInUp} className="space-y-5">
+          <m.div variants={fadeInUp} className="space-y-5">
             <h3 className="text-xl font-bold md:text-2xl">Professional Summary</h3>
             <p className="leading-relaxed text-muted">{about}</p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="mt-8 grid gap-4 border-t border-border/60 pt-8 sm:grid-cols-2"
           >
@@ -100,9 +100,9 @@ export function AboutSection({ portfolio }: AboutSectionProps) {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="mt-8 grid grid-cols-3 gap-4 border-t border-border/60 pt-8"
           >
@@ -112,9 +112,9 @@ export function AboutSection({ portfolio }: AboutSectionProps) {
               value={stats.certificationsCount}
               label="Certifications"
             />
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="mt-8 grid gap-4 border-t border-border/60 pt-8 sm:grid-cols-2"
           >
@@ -139,9 +139,9 @@ export function AboutSection({ portfolio }: AboutSectionProps) {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </m.div>
 
-          <motion.div variants={fadeInUp} className="mt-8 border-t border-border/60 pt-8">
+          <m.div variants={fadeInUp} className="mt-8 border-t border-border/60 pt-8">
             <h4 className="mb-3 font-semibold">Soft Skills</h4>
             <div className="flex flex-wrap gap-2">
               {softSkills.map((skill) => (
@@ -153,8 +153,8 @@ export function AboutSection({ portfolio }: AboutSectionProps) {
                 </span>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

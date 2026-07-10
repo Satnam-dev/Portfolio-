@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
+  --background: #eef2f8;
   --foreground: #0f172a;
-  --muted: #64748b;
+  --muted: #5b6b7c;
   --primary: #4f46e5;
-  --accent: #0ea5e9;
-  --surface: rgba(255, 255, 255, 0.95);
-  --border: #cbd5e1;
+  --accent: #0284c7;
+  --surface: rgba(255, 255, 255, 0.9);
+  --border: #d0d8e6;
   --gradient-start: #4f46e5;
-  --gradient-end: #0ea5e9;
+  --gradient-end: #0284c7;
   --hero-headline: #0f172a;
-  --hero-silver: #64748b;
-  --hero-streak: rgba(15, 23, 42, 0.06);
-  --hero-streak-accent: rgba(79, 70, 229, 0.08);
-  --cursor-dot: #0f172a;
-  --nav-surface: rgba(255, 255, 255, 0.92);
+  --hero-silver: #475569;
+  --hero-streak: rgba(79, 70, 229, 0.055);
+  --hero-streak-accent: rgba(2, 132, 199, 0.06);
+  --cursor-dot: #1e293b;
+  --nav-surface: rgba(255, 255, 255, 0.86);
 }
 
 .dark {
@@ -67,13 +67,20 @@ html.dark {
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(ellipse 90% 55% at 10% -10%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 95% 5%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 50%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   font-feature-settings: "kern" 1, "liga" 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+html.dark body {
+  background: var(--background);
 }
 
 ::selection {
@@ -88,10 +95,24 @@ body {
   background-position: center;
 }
 
+html:not(.dark) .page-grid {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--primary) 7%, var(--border)) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--primary) 7%, var(--border)) 1px, transparent 1px);
+  opacity: 1;
+}
+
 .page-glow {
   background:
     radial-gradient(ellipse 70% 45% at 15% 0%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 55%),
     radial-gradient(ellipse 55% 40% at 85% 10%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 50%);
+}
+
+html:not(.dark) .page-glow {
+  background:
+    radial-gradient(ellipse 75% 50% at 12% 0%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 58%),
+    radial-gradient(ellipse 60% 42% at 88% 8%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 52%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 60%);
 }
 
 .gradient-text {
@@ -118,9 +139,21 @@ body {
   border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
   border-radius: 1.25rem;
   box-shadow: 0 8px 28px color-mix(in srgb, var(--foreground) 6%, transparent);
+  contain: layout style;
 }
 
 @media (min-width: 769px) {
+  html:not(.dark) .panel-card {
+    background: color-mix(in srgb, #ffffff 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-color: color-mix(in srgb, var(--primary) 10%, var(--border));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 12px 36px rgba(15, 23, 42, 0.07),
+      0 4px 14px color-mix(in srgb, var(--primary) 6%, transparent);
+  }
+
   .dark .panel-card {
     background: color-mix(in srgb, var(--surface) 88%, transparent);
     backdrop-filter: blur(10px);
@@ -135,6 +168,16 @@ body {
 }
 
 @media (min-width: 769px) {
+  html:not(.dark) .perf-surface {
+    background: color-mix(in srgb, #ffffff 78%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-color: color-mix(in srgb, var(--primary) 12%, var(--border));
+    box-shadow:
+      0 8px 24px rgba(15, 23, 42, 0.06),
+      0 0 0 1px color-mix(in srgb, var(--primary) 4%, transparent);
+  }
+
   .dark .perf-surface {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -144,6 +187,14 @@ body {
 .section-shell {
   padding-top: 5.5rem;
   padding-bottom: 5.5rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+#home.section-shell,
+section#home {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
 }
 
 @media (min-width: 768px) {
@@ -157,6 +208,12 @@ body {
   background:
     radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--primary) 14%, transparent), transparent),
     radial-gradient(ellipse 60% 40% at 80% 60%, color-mix(in srgb, var(--accent) 8%, transparent), transparent);
+}
+
+html:not(.dark) .hero-gradient {
+  background:
+    radial-gradient(ellipse 85% 55% at 50% -15%, color-mix(in srgb, var(--primary) 18%, transparent), transparent),
+    radial-gradient(ellipse 65% 45% at 85% 55%, color-mix(in srgb, var(--accent) 12%, transparent), transparent);
 }
 
 .hero-streaks {
@@ -183,6 +240,10 @@ body {
   letter-spacing: -0.03em;
   line-height: 1.1;
   color: var(--hero-headline);
+  background: linear-gradient(180deg, #0f172a 0%, #334155 88%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .dark .hero-headline {
@@ -227,12 +288,26 @@ body {
   font-weight: 500;
   color: var(--foreground);
   box-shadow: 0 4px 20px color-mix(in srgb, var(--background) 50%, transparent);
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html:not(.dark) .hero-cta {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: color-mix(in srgb, var(--primary) 14%, var(--border));
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.08),
+    0 0 0 1px color-mix(in srgb, var(--primary) 5%, transparent);
 }
 
 .hero-cta:hover {
   border-color: color-mix(in srgb, var(--primary) 40%, transparent);
   color: var(--primary);
+}
+
+html:not(.dark) .hero-cta:hover {
+  box-shadow:
+    0 10px 28px rgba(79, 70, 229, 0.12),
+    0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
 @media (min-width: 768px) {
@@ -257,21 +332,35 @@ body {
   top: 0;
   left: 0;
   z-index: 35;
-  width: 480px;
-  height: 480px;
-  margin-left: -240px;
-  margin-top: -240px;
+  width: 120px;
+  height: 120px;
+  margin-left: -60px;
+  margin-top: -60px;
   border-radius: 50%;
-  background:
-    radial-gradient(
-      circle,
-      color-mix(in srgb, var(--primary) 14%, transparent) 0%,
-      color-mix(in srgb, var(--foreground) 4%, transparent) 28%,
-      transparent 68%
-    );
-  will-change: transform;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--primary) 10%, transparent) 0%,
+    color-mix(in srgb, var(--foreground) 2%, transparent) 32%,
+    transparent 72%
+  );
+  opacity: 0.4;
   mix-blend-mode: normal;
-  opacity: 0.85;
+  will-change: auto;
+  pointer-events: none;
+}
+
+html:not(.dark) .cursor-glow {
+  width: 140px;
+  height: 140px;
+  margin-left: -70px;
+  margin-top: -70px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--primary) 16%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 8%, transparent) 38%,
+    transparent 72%
+  );
+  opacity: 0.55;
 }
 
 .cursor-dot {
@@ -279,16 +368,16 @@ body {
   top: 0;
   left: 0;
   z-index: 36;
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  margin-top: -3.5px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
   border-radius: 50%;
   background: var(--cursor-dot);
   box-shadow:
-    0 0 10px color-mix(in srgb, var(--cursor-dot) 80%, transparent),
-    0 0 24px color-mix(in srgb, var(--primary) 35%, transparent);
-  will-change: transform;
+    0 0 4px color-mix(in srgb, var(--cursor-dot) 40%, transparent),
+    0 0 10px color-mix(in srgb, var(--primary) 22%, transparent);
+  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -314,10 +403,30 @@ body {
     0 0 10px color-mix(in srgb, var(--primary) 18%, transparent),
     0 0 22px color-mix(in srgb, var(--accent) 12%, transparent);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transform: translateZ(0);
+}
+
+html:not(.dark) .image-glow-border {
+  border-color: color-mix(in srgb, var(--primary) 28%, transparent);
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--primary) 14%, transparent),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.image-glow-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--primary) 22%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent) 16%, transparent);
+  opacity: 0;
 }
 
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .image-glow-border {
+  .image-glow-border::after {
     animation: image-glow-pulse 4s ease-in-out infinite;
   }
 }
@@ -329,6 +438,7 @@ body {
   border-radius: inherit;
   pointer-events: none;
   box-shadow: inset 0 0 14px color-mix(in srgb, var(--primary) 10%, transparent);
+  z-index: 1;
 }
 
 .image-glow-border:hover {
@@ -336,6 +446,11 @@ body {
   box-shadow:
     0 0 14px color-mix(in srgb, var(--primary) 24%, transparent),
     0 0 28px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.image-glow-border:hover::after {
+  opacity: 0.9;
+  animation: none;
 }
 
 @keyframes shine-pulse {
@@ -357,16 +472,10 @@ body {
 @keyframes image-glow-pulse {
   0%,
   100% {
-    border-color: color-mix(in srgb, var(--primary) 28%, transparent);
-    box-shadow:
-      0 0 8px color-mix(in srgb, var(--primary) 14%, transparent),
-      0 0 18px color-mix(in srgb, var(--accent) 10%, transparent);
+    opacity: 0.35;
   }
   50% {
-    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-    box-shadow:
-      0 0 14px color-mix(in srgb, var(--primary) 22%, transparent),
-      0 0 26px color-mix(in srgb, var(--accent) 16%, transparent);
+    opacity: 0.85;
   }
 }
 
@@ -447,20 +556,31 @@ body {
 }
 
 @media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
-  .contact-float-1 {
-    animation: contact-float 3.4s ease-in-out infinite;
-  }
-
-  .contact-float-2 {
-    animation: contact-float 3.8s ease-in-out 0.4s infinite;
-  }
-
-  .contact-float-3 {
-    animation: contact-float 4.1s ease-in-out 0.8s infinite;
-  }
-
+  .contact-float-1,
+  .contact-float-2,
+  .contact-float-3,
   .contact-float-4 {
+    animation-play-state: paused;
+  }
+
+  .is-visible .contact-float-1 {
+    animation: contact-float 3.4s ease-in-out infinite;
+    animation-play-state: running;
+  }
+
+  .is-visible .contact-float-2 {
+    animation: contact-float 3.8s ease-in-out 0.4s infinite;
+    animation-play-state: running;
+  }
+
+  .is-visible .contact-float-3 {
+    animation: contact-float 4.1s ease-in-out 0.8s infinite;
+    animation-play-state: running;
+  }
+
+  .is-visible .contact-float-4 {
     animation: contact-float 3.6s ease-in-out 1.2s infinite;
+    animation-play-state: running;
   }
 }
 
@@ -524,6 +644,7 @@ body {
   }
 
   .image-glow-border,
+  .image-glow-border::after,
   .shine-border {
     animation: none;
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
 interface TypingTextProps {
@@ -10,50 +10,127 @@ interface TypingTextProps {
 
 export function TypingText({ phrases, className }: TypingTextProps) {
   const mode = usePerformanceMode();
+  const textRef = useRef<HTMLSpanElement>(null);
   const safePhrases = useMemo(
     () => (phrases.length > 0 ? phrases : ["Software Developer"]),
     [phrases]
   );
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    if (mode === "lite") {
-      setDisplayed(safePhrases[phraseIndex] || "");
-      const timer = setInterval(() => {
-        setPhraseIndex((prev) => (prev + 1) % safePhrases.length);
-      }, 3200);
-      return () => clearInterval(timer);
-    }
+    const textNode = textRef.current;
+    if (!textNode) return;
 
-    const current = safePhrases[phraseIndex] || "";
-    const typingSpeed = isDeleting ? 45 : 85;
-    const pauseAtEnd = 2400;
-    const pauseBeforeDelete = 2000;
+    let phraseIndex = 0;
+    let displayed = "";
+    let isDeleting = false;
+    let timeoutId = 0;
+    let intervalId = 0;
+    let paused = false;
+    let visible = true;
 
-    if (!isDeleting && displayed === current) {
-      const timeout = setTimeout(() => setIsDeleting(true), pauseAtEnd);
-      return () => clearTimeout(timeout);
-    }
+    const setText = (value: string) => {
+      displayed = value;
+      textNode.textContent = value;
+    };
 
-    if (isDeleting && displayed === "") {
-      setIsDeleting(false);
-      setPhraseIndex((prev) => (prev + 1) % safePhrases.length);
-      return;
-    }
+    const clearTimers = () => {
+      window.clearTimeout(timeoutId);
+      window.clearInterval(intervalId);
+      timeoutId = 0;
+      intervalId = 0;
+    };
 
-    const timeout = setTimeout(() => {
+    const schedule = (fn: () => void, delay: number) => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(fn, delay);
+    };
+
+    const tickFull = () => {
+      if (paused || !visible) return;
+
+      const current = safePhrases[phraseIndex] || "";
+      const typingSpeed = isDeleting ? 45 : 85;
+      const pauseAtEnd = 2400;
+
+      if (!isDeleting && displayed === current) {
+        schedule(() => {
+          isDeleting = true;
+          tickFull();
+        }, pauseAtEnd);
+        return;
+      }
+
+      if (isDeleting && displayed === "") {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % safePhrases.length;
+        schedule(tickFull, typingSpeed);
+        return;
+      }
+
       const nextLength = isDeleting ? displayed.length - 1 : displayed.length + 1;
-      setDisplayed(current.slice(0, nextLength));
-    }, isDeleting ? typingSpeed : displayed === current ? pauseBeforeDelete : typingSpeed);
+      setText(current.slice(0, nextLength));
+      schedule(tickFull, typingSpeed);
+    };
 
-    return () => clearTimeout(timeout);
-  }, [displayed, isDeleting, mode, phraseIndex, safePhrases]);
+    const startLite = () => {
+      setText(safePhrases[phraseIndex] || "");
+      intervalId = window.setInterval(() => {
+        if (paused || !visible) return;
+        phraseIndex = (phraseIndex + 1) % safePhrases.length;
+        setText(safePhrases[phraseIndex] || "");
+      }, 3200);
+    };
+
+    const start = () => {
+      clearTimers();
+      if (mode === "lite") {
+        startLite();
+      } else {
+        tickFull();
+      }
+    };
+
+    const onVisibility = () => {
+      paused = document.visibilityState === "hidden";
+      if (!paused && visible) {
+        if (mode === "lite") {
+          if (!intervalId) startLite();
+        } else if (!timeoutId) {
+          tickFull();
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !paused) {
+          if (mode === "lite") {
+            if (!intervalId) startLite();
+          } else if (!timeoutId) {
+            tickFull();
+          }
+        } else {
+          clearTimers();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(textNode);
+    document.addEventListener("visibilitychange", onVisibility);
+    start();
+
+    return () => {
+      clearTimers();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [mode, safePhrases]);
 
   return (
     <span className={className}>
-      {displayed}
+      <span ref={textRef} />
       <span className="typing-cursor ml-0.5 inline-block w-[3px] bg-primary align-middle" />
     </span>
   );

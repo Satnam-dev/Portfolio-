@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Send } from "lucide-react";
 import { SITE } from "@/lib/constants";
 import type { PortfolioInfo } from "@/types";
@@ -48,7 +48,7 @@ export function ContactSection({ portfolio }: ContactSectionProps) {
         />
 
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-          <motion.form
+          <m.form
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -101,9 +101,9 @@ export function ContactSection({ portfolio }: ContactSectionProps) {
                 Messages are routed via GitHub while email is not configured.
               </p>
             )}
-          </motion.form>
+          </m.form>
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -111,7 +111,7 @@ export function ContactSection({ portfolio }: ContactSectionProps) {
             className="relative hidden md:block"
           >
             <ContactIllustration />
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

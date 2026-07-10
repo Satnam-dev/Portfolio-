@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { NAV_LINKS } from "@/lib/constants";
@@ -10,6 +10,8 @@ import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { SocialCornerLinks } from "@/components/shared/SocialCornerLinks";
 import { cn } from "@/lib/utils";
+
+const SECTION_IDS = NAV_LINKS.map((l) => l.href);
 
 interface NavbarProps {
   portfolio?: PortfolioInfo | null;
@@ -41,7 +43,7 @@ export function MobileMenu({ portfolio, activeSection }: MobileMenuProps) {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -67,7 +69,7 @@ export function MobileMenu({ portfolio, activeSection }: MobileMenuProps) {
                 <SocialCornerLinks portfolio={portfolio} iconSize="sm" />
               </div>
             </nav>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>
@@ -75,7 +77,7 @@ export function MobileMenu({ portfolio, activeSection }: MobileMenuProps) {
 }
 
 export function Navbar({ portfolio }: NavbarProps) {
-  const activeSection = useScrollSpy(NAV_LINKS.map((l) => l.href));
+  const activeSection = useScrollSpy(SECTION_IDS);
 
   return (
     <>

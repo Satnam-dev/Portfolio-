@@ -1,7 +1,7 @@
 "use client";
 
 import type { ElementType } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { BookOpen, Building2, Calendar, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import type { Certification } from "@/types";
@@ -47,7 +47,7 @@ export function CertificationsSection({
           description="Professional certifications and achievements"
         />
 
-        <motion.div
+        <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -55,11 +55,10 @@ export function CertificationsSection({
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {certifications.map((cert) => (
-            <motion.article
+            <m.article
               key={cert._id}
               variants={fadeInUp}
-              whileHover={{ y: -5 }}
-              className="panel-card group flex flex-col overflow-hidden transition-colors hover:border-primary/30"
+              className="panel-card group flex flex-col overflow-hidden transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[5px] hover:border-primary/30"
             >
               <div className="image-glow-border relative m-4 aspect-[4/3] overflow-hidden rounded-xl">
                 <Image
@@ -68,6 +67,7 @@ export function CertificationsSection({
                   fill
                   className="object-contain p-1"
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={65}
                 />
               </div>
 
@@ -120,9 +120,9 @@ export function CertificationsSection({
                   </Button>
                 </div>
               </div>
-            </motion.article>
+            </m.article>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   value: number;
@@ -10,12 +10,13 @@ interface AnimatedCounterProps {
 
 export function AnimatedCounter({ value, suffix = "", label }: AnimatedCounterProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [count, setCount] = useState(0);
+  const valueRef = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
-    if (!node || hasAnimated.current) return;
+    const valueNode = valueRef.current;
+    if (!node || !valueNode || hasAnimated.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -27,11 +28,10 @@ export function AnimatedCounter({ value, suffix = "", label }: AnimatedCounterPr
 
         const tick = (now: number) => {
           const progress = Math.min((now - start) / duration, 1);
-          setCount(Math.floor(value * progress));
+          const current = progress < 1 ? Math.floor(value * progress) : value;
+          valueNode.textContent = `${current}${suffix}`;
           if (progress < 1) {
             requestAnimationFrame(tick);
-          } else {
-            setCount(value);
           }
         };
 
@@ -43,13 +43,15 @@ export function AnimatedCounter({ value, suffix = "", label }: AnimatedCounterPr
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [value]);
+  }, [value, suffix]);
 
   return (
     <div ref={ref} className="panel-card perf-surface rounded-2xl p-6 text-center">
       <div className="text-3xl font-bold gradient-text md:text-4xl">
-        {count}
-        {suffix}
+        <span ref={valueRef}>
+          0
+          {suffix}
+        </span>
       </div>
       <div className="mt-1 text-sm text-muted">{label}</div>
     </div>

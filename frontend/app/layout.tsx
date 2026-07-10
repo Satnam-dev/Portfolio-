@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { MotionProvider } from "@/components/providers/MotionProvider";
+import { PerformanceModeProvider } from "@/components/providers/PerformanceModeProvider";
 import { ThemeScript } from "@/components/shared/ThemeToggle";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -50,19 +52,23 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <head>
         <ThemeScript />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <ThemeProvider>
-          <CursorSpotlight />
-          <ScrollProgressBar />
-          <Navbar portfolio={portfolio} />
-          <main>{children}</main>
-          <Footer />
-          <BackToTop />
+          <PerformanceModeProvider>
+            <MotionProvider>
+              <CursorSpotlight />
+              <ScrollProgressBar />
+              <Navbar portfolio={portfolio} />
+              <main>{children}</main>
+              <Footer />
+              <BackToTop />
+            </MotionProvider>
+          </PerformanceModeProvider>
         </ThemeProvider>
       </body>
     </html>

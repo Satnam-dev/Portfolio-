@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeInUp } from "@/animations/variants";
 
 interface SectionHeadingProps {
@@ -11,7 +11,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ label, title, description }: SectionHeadingProps) {
   return (
-    <motion.div
+    <m.div
       variants={fadeInUp}
       initial="hidden"
       whileInView="visible"
@@ -27,6 +27,6 @@ export function SectionHeading({ label, title, description }: SectionHeadingProp
       {description && (
         <p className="mx-auto mt-4 max-w-2xl text-muted md:text-lg">{description}</p>
       )}
-    </motion.div>
+    </m.div>
   );
 }

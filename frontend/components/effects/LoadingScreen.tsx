@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 
 export function LoadingScreen() {
@@ -25,7 +25,7 @@ export function LoadingScreen() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <m.div
           exit={{ opacity: 0 }}
           className="loader-content fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
         >
@@ -34,7 +34,7 @@ export function LoadingScreen() {
             <div className="loader-bar h-full w-0 rounded-full bg-gradient-to-r from-primary to-accent" />
           </div>
           <p className="mt-4 text-sm text-muted">Loading portfolio...</p>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

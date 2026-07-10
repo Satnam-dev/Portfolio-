@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 interface TypingAnimationProps {
   texts: string[];
@@ -40,7 +40,7 @@ export function TypingAnimation({ texts, className }: TypingAnimationProps) {
   return (
     <span className={className}>
       {display}
-      <motion.span
+      <m.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
         className="ml-0.5 inline-block h-[1em] w-0.5 bg-primary align-middle"

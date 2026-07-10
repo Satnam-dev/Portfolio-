@@ -80,13 +80,13 @@ export const FALLBACK_CERTIFICATIONS: Certification[] = [
 
 export const FALLBACK_EXPERIENCES: Experience[] = [
   {
-    _id: "2",
+    _id: "3",
     title: "Google Cybersecurity Professional Certificate",
     organization: "Google · Coursera",
     type: "training",
-    currentLevel: "2 of 8 Courses Completed",
+    currentLevel: "Just Started · 9 Courses",
     status: "current",
-    startDate: "2026-07-08",
+    startDate: "2026-07-09",
     endDate: null,
     learning: [
       "Foundations of Cybersecurity",
@@ -96,9 +96,39 @@ export const FALLBACK_EXPERIENCES: Experience[] = [
       "Threat Detection & Incident Response",
     ],
     description:
-      "Ongoing Google Cybersecurity Professional Certificate on Coursera. Started 2 days ago and has completed 2 courses so far, building practical skills for entry-level cybersecurity roles.",
-    images: [],
+      "Recently enrolled in the Google Cybersecurity Professional Certificate on Coursera — a 9-course program. Just started and currently in progress, building practical skills for entry-level cybersecurity roles.",
+    images: [
+      "/images/experience/google-cyber-banner.png",
+      "/images/experience/google-cyber-dashboard.png",
+      "/images/experience/google-cyber-course.png",
+    ],
     order: 1,
+  },
+  {
+    _id: "2",
+    title: "AI Launchpad: Unlocking Intelligence with Python & ML",
+    organization: "GOW AI Academy",
+    type: "training",
+    currentLevel: "≈1 Month 15 Days of 3 Months",
+    status: "current",
+    startDate: "2026-05-25",
+    endDate: null,
+    learning: [
+      "Python Programming",
+      "Machine Learning Fundamentals",
+      "Hands-on Weekly Projects",
+      "Portfolio & GitHub Projects",
+      "Industry-Ready AI Skills",
+    ],
+    description:
+      "Currently enrolled in AI Launchpad (Level 1) by GOW AI Academy at the Apple AI Lab, Rayat-Bahra University — a 3-month program (2 months expert training + 1 month industry internship). Approximately 1 month and 15 days completed; currently in progress.",
+    images: [
+      "/images/experience/ai-launchpad-code.png",
+      "/images/experience/ai-launchpad-class-1.png",
+      "/images/experience/ai-launchpad-class-2.png",
+      "/images/experience/ai-launchpad-banner.png",
+    ],
+    order: 2,
   },
   {
     _id: "1",
@@ -117,8 +147,12 @@ export const FALLBACK_EXPERIENCES: Experience[] = [
     ],
     description:
       "Currently pursuing B.Tech in Computer Science Engineering at Rayat Bahra University, building strong foundations in programming, cloud technologies, and cybersecurity.",
-    images: [],
-    order: 2,
+    images: [
+      "/images/experience/btech-campus-1.png",
+      "/images/experience/btech-campus-2.png",
+      "/images/experience/btech-university-logo.png",
+    ],
+    order: 3,
   },
 ];
 

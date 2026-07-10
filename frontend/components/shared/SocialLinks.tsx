@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { SITE } from "@/lib/constants";
 
@@ -26,18 +25,16 @@ export function SocialLinks({
   return (
     <div className={`flex items-center gap-3 ${className || ""}`}>
       {links.map(({ href, icon: Icon, label }) => (
-        <motion.a
+        <a
           key={label}
           href={href}
           target={label !== "Email" ? "_blank" : undefined}
           rel={label !== "Email" ? "noopener noreferrer" : undefined}
           aria-label={label}
-          whileHover={{ scale: 1.1, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface/50 text-muted backdrop-blur-sm transition-colors hover:border-primary/50 hover:text-primary"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface/50 text-muted backdrop-blur-sm transition-[transform,color,border-color] duration-300 ease-out hover:-translate-y-0.5 hover:scale-110 hover:border-primary/50 hover:text-primary active:scale-95"
         >
           <Icon className="h-4 w-4" />
-        </motion.a>
+        </a>
       ))}
     </div>
   );

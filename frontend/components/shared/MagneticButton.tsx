@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface MagneticButtonProps {
@@ -49,7 +49,7 @@ export function MagneticButton({
 
   if (as === "a" && href) {
     return (
-      <motion.a
+      <m.a
         {...motionProps}
         href={href}
         target={target}
@@ -58,13 +58,13 @@ export function MagneticButton({
         onClick={onClick}
       >
         {children}
-      </motion.a>
+      </m.a>
     );
   }
 
   return (
-    <motion.button {...motionProps} onClick={onClick} type="button">
+    <m.button {...motionProps} onClick={onClick} type="button">
       {children}
-    </motion.button>
+    </m.button>
   );
 }

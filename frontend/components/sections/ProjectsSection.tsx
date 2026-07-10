@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ExternalLink, Search } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
@@ -17,13 +17,12 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
 
   return (
-    <motion.article
+    <article
       ref={ref}
-      whileHover={{ y: -6 }}
-      className="group panel-card overflow-hidden transition-colors hover:border-primary/30"
+      className="group panel-card overflow-hidden transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/30"
     >
       <div className="border-b border-border/60 p-6">
         <h3 className="text-xl font-bold">{project.title}</h3>
@@ -47,6 +46,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
+            quality={70}
           />
         </div>
 
@@ -77,7 +77,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -129,7 +129,7 @@ export function ProjectsSection({ projects: initialProjects }: ProjectsSectionPr
                 key={tech}
                 onClick={() => setFilter(tech)}
                 className={cn(
-                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-all",
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-[border-color,background-color,color] duration-200",
                   filter === tech
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border text-muted hover:border-primary/50"
@@ -146,7 +146,7 @@ export function ProjectsSection({ projects: initialProjects }: ProjectsSectionPr
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
             {filtered.map((project, i) => (
-              <motion.div
+              <m.div
                 key={project._id}
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -154,7 +154,7 @@ export function ProjectsSection({ projects: initialProjects }: ProjectsSectionPr
                 transition={{ delay: i * 0.08 }}
               >
                 <ProjectCard project={project} />
-              </motion.div>
+              </m.div>
             ))}
           </div>
         )}
