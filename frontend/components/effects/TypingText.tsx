@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
 interface TypingTextProps {
   phrases: string[];
@@ -9,7 +8,6 @@ interface TypingTextProps {
 }
 
 export function TypingText({ phrases, className }: TypingTextProps) {
-  const mode = usePerformanceMode();
   const textRef = useRef<HTMLSpanElement>(null);
   const safePhrases = useMemo(
     () => (phrases.length > 0 ? phrases : ["Software Developer"]),
@@ -24,7 +22,6 @@ export function TypingText({ phrases, className }: TypingTextProps) {
     let displayed = "";
     let isDeleting = false;
     let timeoutId = 0;
-    let intervalId = 0;
     let paused = false;
     let visible = true;
 
@@ -33,19 +30,22 @@ export function TypingText({ phrases, className }: TypingTextProps) {
       textNode.textContent = value;
     };
 
-    const clearTimers = () => {
-      window.clearTimeout(timeoutId);
-      window.clearInterval(intervalId);
-      timeoutId = 0;
-      intervalId = 0;
+    const clearTimer = () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+        timeoutId = 0;
+      }
     };
 
     const schedule = (fn: () => void, delay: number) => {
-      window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(fn, delay);
+      clearTimer();
+      timeoutId = window.setTimeout(() => {
+        timeoutId = 0;
+        fn();
+      }, delay);
     };
 
-    const tickFull = () => {
+    const tick = () => {
       if (paused || !visible) return;
 
       const current = safePhrases[phraseIndex] || "";
@@ -55,7 +55,7 @@ export function TypingText({ phrases, className }: TypingTextProps) {
       if (!isDeleting && displayed === current) {
         schedule(() => {
           isDeleting = true;
-          tickFull();
+          tick();
         }, pauseAtEnd);
         return;
       }
@@ -63,70 +63,54 @@ export function TypingText({ phrases, className }: TypingTextProps) {
       if (isDeleting && displayed === "") {
         isDeleting = false;
         phraseIndex = (phraseIndex + 1) % safePhrases.length;
-        schedule(tickFull, typingSpeed);
+        schedule(tick, typingSpeed);
         return;
       }
 
-      const nextLength = isDeleting ? displayed.length - 1 : displayed.length + 1;
+      const nextLength = isDeleting
+        ? displayed.length - 1
+        : displayed.length + 1;
       setText(current.slice(0, nextLength));
-      schedule(tickFull, typingSpeed);
+      schedule(tick, typingSpeed);
     };
 
-    const startLite = () => {
-      setText(safePhrases[phraseIndex] || "");
-      intervalId = window.setInterval(() => {
-        if (paused || !visible) return;
-        phraseIndex = (phraseIndex + 1) % safePhrases.length;
-        setText(safePhrases[phraseIndex] || "");
-      }, 3200);
-    };
-
-    const start = () => {
-      clearTimers();
-      if (mode === "lite") {
-        startLite();
-      } else {
-        tickFull();
-      }
+    const resume = () => {
+      if (paused || !visible) return;
+      if (!timeoutId) tick();
     };
 
     const onVisibility = () => {
       paused = document.visibilityState === "hidden";
-      if (!paused && visible) {
-        if (mode === "lite") {
-          if (!intervalId) startLite();
-        } else if (!timeoutId) {
-          tickFull();
-        }
+      if (paused) {
+        clearTimer();
+      } else {
+        resume();
       }
     };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
-        if (visible && !paused) {
-          if (mode === "lite") {
-            if (!intervalId) startLite();
-          } else if (!timeoutId) {
-            tickFull();
-          }
+        if (!visible) {
+          clearTimer();
         } else {
-          clearTimers();
+          resume();
         }
       },
       { threshold: 0.05 }
     );
 
+    setText("");
     observer.observe(textNode);
     document.addEventListener("visibilitychange", onVisibility);
-    start();
+    tick();
 
     return () => {
-      clearTimers();
+      clearTimer();
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [mode, safePhrases]);
+  }, [safePhrases]);
 
   return (
     <span className={className}>
