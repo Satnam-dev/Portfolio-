@@ -1,5 +1,7 @@
 # Satnam Kumar — Portfolio
 
+🌐 **Live Portfolio:** https://satnamkumar.vercel.app
+
 Premium full-stack portfolio website built with **Next.js** (frontend) and **Express.js** (backend), connected to **MongoDB Atlas**.
 
 ## Project Structure
